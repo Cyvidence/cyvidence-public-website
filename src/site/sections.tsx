@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ArrowRight,
   Building2,
@@ -7,12 +8,15 @@ import {
   FileCheck2,
   Gauge,
   Handshake,
+  LayoutTemplate,
   ListChecks,
+  Sparkles,
+  Workflow,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CRA_FULL_APPLICATION, mailto, regulations, timeline, toolGroups } from "./content";
+import { CRA_FULL_APPLICATION, categories, mailto, regulations, timeline, toolGroups } from "./content";
 import { HeroMock } from "./hero-mock";
 import { Logo, LogoMark } from "./logo";
 
@@ -292,23 +296,155 @@ export function WhyNow() {
   );
 }
 
+const simplifiers = [
+  {
+    icon: LayoutTemplate,
+    title: "Standard templates",
+    text: "Every evidence area comes with a template built on the regulations and harmonised standards behind it, such as IEC 62443. Teams fill in what is specific to their product, not a blank page.",
+  },
+  {
+    icon: Workflow,
+    title: "Integrations",
+    text: "Scan results, SBOMs, tickets and test reports flow in from the tools your developers already use, and land in the right area for the right release.",
+  },
+  {
+    icon: Sparkles,
+    title: "Security AI",
+    text: "AI drafts content, cross-checks it against every regulation that applies and flags gaps. Your people review and approve every decision.",
+  },
+];
+
 export function Regulations() {
+  const [hover, setHover] = useState<{ row?: string; col?: number }>({});
+  const colCount = (id: number) => regulations.filter((r) => r.uses.includes(id as never)).length;
   return (
     <section id="regulations" className="bg-muted/50 py-24">
       <div className="container-page">
         <SectionHeader
           eyebrow="One record, every regulation"
-          title="Do the work once, reuse it everywhere"
-          lead="Each law asks its own question, but the evidence behind the answers overlaps. Cyvidence organises it once and reuses it for every regulation that applies to a product, so your teams never write the same thing twice."
+          title="Eight regulations. Twelve evidence areas. One workflow."
+          lead="Each law draws on a different mix of the same evidence. Mapping it by hand, product by product and release by release, is a full-time job. Cyvidence covers every area and keeps it all in sync."
         />
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {regulations.map((r) => (
-            <li key={r.id} className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-5 shadow-xs">
-              <p className="text-title-md">{r.name}</p>
-              <p className="text-body-sm text-muted-foreground">{r.question}</p>
-            </li>
+
+        <div className="overflow-x-auto rounded-3xl border border-border bg-card shadow-lg" onMouseLeave={() => setHover({})}>
+          <table className="w-full min-w-[800px] border-collapse md:min-w-[920px] text-left">
+            <caption className="sr-only">Evidence areas each EU regulation draws on</caption>
+            <thead>
+              <tr>
+                <th scope="col" className="sticky left-0 z-10 bg-card p-4 align-bottom text-label-sm text-muted-foreground">
+                  <span className="md:hidden">Law</span>
+                  <span className="hidden md:inline">Regulation</span>
+                </th>
+                {categories.map((c) => (
+                  <th
+                    key={c.id}
+                    scope="col"
+                    title={c.name}
+                    onMouseEnter={() => setHover({ col: c.id })}
+                    className={cn("h-48 w-14 px-1 pb-4 align-bottom transition-colors", hover.col === c.id && "bg-accent")}
+                  >
+                    <div className="mx-auto flex flex-col items-center gap-2">
+                      <span className="text-label-sm whitespace-nowrap [writing-mode:vertical-rl] rotate-180">{c.short}</span>
+                      <span className="text-code-sm text-muted-foreground">{String(c.id).padStart(2, "0")}</span>
+                    </div>
+                  </th>
+                ))}
+                <th scope="col" className="px-4 pb-4 align-bottom text-right text-label-sm text-muted-foreground">
+                  Areas
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {regulations.map((r) => (
+                <tr key={r.id} className="border-t border-border" onMouseEnter={() => setHover({ row: r.id })}>
+                  <th
+                    scope="row"
+                    title={r.question}
+                    className={cn(
+                      "sticky left-0 z-10 bg-card px-4 py-3 text-label-md whitespace-nowrap transition-colors",
+                      hover.row === r.id && "bg-accent",
+                    )}
+                  >
+                    <span className="md:hidden">{r.short}</span>
+                    <span className="hidden md:inline">{r.name}</span>
+                  </th>
+                  {categories.map((c) => {
+                    const on = r.uses.includes(c.id);
+                    const lit = hover.row === r.id || hover.col === c.id;
+                    return (
+                      <td
+                        key={c.id}
+                        onMouseEnter={() => setHover({ row: r.id, col: c.id })}
+                        className={cn("h-12 text-center transition-colors", lit && "bg-accent")}
+                      >
+                        <span
+                          aria-label={on ? "Required" : "Not required"}
+                          className={cn(
+                            "inline-block rounded-full transition-transform",
+                            on ? "size-3 bg-primary" : "size-1.5 bg-border",
+                            on && lit && "scale-125",
+                          )}
+                        />
+                      </td>
+                    );
+                  })}
+                  <td className={cn("px-4 text-right text-code-sm text-muted-foreground", hover.row === r.id && "bg-accent")}>
+                    {r.uses.length}
+                  </td>
+                </tr>
+              ))}
+              <tr className="border-t border-border">
+                <th scope="row" className="sticky left-0 z-10 bg-card px-4 py-3 text-label-sm text-muted-foreground">
+                  <span className="md:hidden">Used by</span>
+                  <span className="hidden md:inline">Regulations using it</span>
+                </th>
+                {categories.map((c) => (
+                  <td key={c.id} className={cn("text-center text-code-sm text-muted-foreground", hover.col === c.id && "bg-accent")}>
+                    {colCount(c.id)}
+                  </td>
+                ))}
+                <td />
+              </tr>
+              <tr className="border-t border-border bg-success-subtle">
+                <th scope="row" className="sticky left-0 z-10 bg-success-subtle px-4 py-4 text-label-md whitespace-nowrap">
+                  <span className="md:hidden">Covered</span>
+                  <span className="hidden md:inline">Covered by Cyvidence</span>
+                </th>
+                {categories.map((c) => (
+                  <td key={c.id} className="text-center">
+                    <span className="inline-flex size-6 items-center justify-center rounded-full bg-success text-success-foreground">
+                      <Check className="size-3.5" aria-label="Covered" />
+                    </span>
+                  </td>
+                ))}
+                <td className="px-4 text-right text-label-md text-success">All 12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-4 text-caption text-muted-foreground">
+          <span className="md:hidden">Swipe to see all twelve areas. </span><span className="hidden md:inline">Hover a regulation or an evidence area to trace it. </span> Scope depends on the product; Cyvidence shows only what applies to
+          yours.
+        </p>
+
+        <div className="mt-16 flex max-w-2xl flex-col gap-3">
+          <h3 className="text-heading-sm">Complex underneath, simple to use</h3>
+          <p className="text-body-md text-muted-foreground">
+            Your teams never work in a matrix. They work through one guided flow per product, and three things do the heavy
+            lifting.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {simplifiers.map((x) => (
+            <div key={x.title} className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-secondary">
+                <x.icon className="size-5" aria-hidden />
+              </span>
+              <h4 className="text-title-lg">{x.title}</h4>
+              <p className="text-body-sm text-muted-foreground">{x.text}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

@@ -11,66 +11,74 @@ export const mailto = (subject: string) =>
 
 export type CategoryId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-export const categories: { id: CategoryId; name: string; core: boolean }[] = [
-  { id: 1, name: "Product identity and scope", core: true },
-  { id: 2, name: "Architecture and components", core: true },
-  { id: 3, name: "Risk and threat assessment", core: true },
-  { id: 4, name: "Security requirements and controls", core: true },
-  { id: 5, name: "Engineering and build integrity", core: false },
-  { id: 6, name: "Verification and testing", core: true },
-  { id: 7, name: "Vulnerabilities and incidents", core: true },
-  { id: 8, name: "Updates and lifecycle support", core: true },
-  { id: 9, name: "Suppliers and dependencies", core: false },
-  { id: 10, name: "AI and safety assurance", core: false },
-  { id: 11, name: "Conformity and regulatory files", core: true },
-  { id: 12, name: "Governance and independent assurance", core: true },
+export const categories: { id: CategoryId; name: string; short: string; core: boolean }[] = [
+  { id: 1, name: "Product identity and scope", short: "Scope", core: true },
+  { id: 2, name: "Architecture and components", short: "Architecture and SBOM", core: true },
+  { id: 3, name: "Risk and threat assessment", short: "Risk and threats", core: true },
+  { id: 4, name: "Security requirements and controls", short: "Security controls", core: true },
+  { id: 5, name: "Engineering and build integrity", short: "Build integrity", core: false },
+  { id: 6, name: "Verification and testing", short: "Testing", core: true },
+  { id: 7, name: "Vulnerabilities and incidents", short: "Vulnerabilities", core: true },
+  { id: 8, name: "Updates and lifecycle support", short: "Updates and support", core: true },
+  { id: 9, name: "Suppliers and dependencies", short: "Suppliers", core: false },
+  { id: 10, name: "AI and safety assurance", short: "AI and safety", core: false },
+  { id: 11, name: "Conformity and regulatory files", short: "Conformity files", core: true },
+  { id: 12, name: "Governance and independent assurance", short: "Governance", core: true },
 ];
 
-export const regulations: { id: string; name: string; question: string; uses: CategoryId[] }[] = [
+export const regulations: { id: string; name: string; short: string; question: string; uses: CategoryId[] }[] = [
   {
     id: "cra",
+    short: "CRA",
     name: "Cyber Resilience Act",
     question: "Is this digital product secure, and can its vulnerabilities be managed throughout its support period?",
     uses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12],
   },
   {
     id: "red",
+    short: "RED",
     name: "Radio Equipment Directive",
     question: "Does covered radio equipment protect networks, personal data and users against fraud?",
     uses: [1, 2, 3, 4, 6, 11, 12],
   },
   {
     id: "machinery",
+    short: "Machinery Reg.",
     name: "Machinery Regulation",
     question: "Can cyber interference compromise machinery safety or control functions?",
     uses: [1, 2, 3, 4, 5, 6, 8, 10, 11, 12],
   },
   {
     id: "pld",
+    short: "Product Liability",
     name: "Product Liability Directive",
     question: "What happened, was the product defective, and what evidence can be produced?",
     uses: [1, 2, 3, 4, 5, 6, 7, 8, 10, 12],
   },
   {
     id: "ai-act",
+    short: "AI Act",
     name: "AI Act",
     question: "Does a qualifying AI system meet risk, data, transparency, robustness and oversight requirements?",
     uses: [1, 2, 3, 4, 5, 6, 8, 10, 11, 12],
   },
   {
     id: "data-act",
+    short: "Data Act",
     name: "Data Act",
     question: "Can users access the data their connected product generates, without compromising its security?",
     uses: [1, 2, 3, 4, 9, 11, 12],
   },
   {
     id: "nis2",
+    short: "NIS2",
     name: "NIS2",
     question: "Does the organisation manage cybersecurity risks, suppliers, incidents and continuity adequately?",
     uses: [5, 7, 8, 9, 12],
   },
   {
     id: "dora",
+    short: "DORA",
     name: "DORA",
     question: "Does a financial entity manage ICT risk, third parties, incidents and resilience testing?",
     uses: [5, 6, 7, 8, 9, 12],
