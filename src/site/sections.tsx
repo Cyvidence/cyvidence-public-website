@@ -1,13 +1,11 @@
 import { useState } from "react";
 import {
   ArrowRight,
-  Building2,
   CalendarClock,
   Check,
   Eye,
   FileCheck2,
   Gauge,
-  Handshake,
   LayoutTemplate,
   ListChecks,
   Sparkles,
@@ -17,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CRA_FULL_APPLICATION, categories, mailto, regulations, timeline, toolGroups } from "./content";
+import { ManufacturerVisual, PartnerVisual, SoftwareVisual } from "./audience-visuals";
 import { HeroMock } from "./hero-mock";
 import { Logo, LogoMark } from "./logo";
 
@@ -61,7 +60,7 @@ export function Nav() {
             ["Platform", "#platform"],
             ["Integrations", "#integrations"],
             ["Regulations", "#regulations"],
-            ["Partners", "#partners"],
+            ["Who it is for", "#partners"],
           ].map(([label, href]) => (
             <a key={href} href={href} className="text-label-md text-muted-foreground transition-colors hover:text-foreground">
               {label}
@@ -450,34 +449,67 @@ export function Regulations() {
   );
 }
 
+const audiences = [
+  {
+    id: "manufacturers",
+    eyebrow: "Manufacturers and industry",
+    title: "Every connected product, from machine to gateway",
+    text: "For security and technology leaders responsible for a portfolio of connected products. Your teams keep working in the tools they know; you see the whole picture and every deadline that applies.",
+    chips: ["Industrial machinery", "Automation", "Building technology", "Energy", "Marine", "Medical devices", "Automotive suppliers"],
+    cta: { label: "Talk to us", subject: CONTACT_SUBJECT },
+    Visual: ManufacturerVisual,
+  },
+  {
+    id: "software",
+    eyebrow: "Software and digital products",
+    title: "Security evidence that ships with every release",
+    text: "If you sell software in the EU, the same rules apply to you. Cyvidence turns the signals your pipelines already produce into evidence for each release, mapped to every regulation your customers and auditors ask about.",
+    chips: ["SaaS platforms", "Mobile and desktop apps", "IoT and cloud platforms", "Embedded software", "Suppliers to banks and insurers"],
+    cta: { label: "Talk to us", subject: CONTACT_SUBJECT },
+    Visual: SoftwareVisual,
+  },
+  {
+    id: "partners",
+    eyebrow: "Cybersecurity partners",
+    title: "Deliver assessments your clients can build on",
+    text: "Consultancies and auditors run scans, reviews and sign-offs for their clients in one place. Every comment is tied to the product version it covers, and clients see the result in their own portfolio.",
+    chips: ["Security consultancies", "Auditors", "Testing labs", "Compliance advisors"],
+    cta: { label: "Become a partner", subject: "Partnership" },
+    Visual: PartnerVisual,
+  },
+];
+
 export function Partners() {
   return (
     <section id="partners" className="py-24">
       <div className="container-page">
-        <SectionHeader eyebrow="Who it is for" title="For manufacturers and their security partners" />
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-8 shadow-sm">
-            <Building2 className="size-6" aria-hidden />
-            <h3 className="text-heading-sm">Manufacturers</h3>
-            <p className="text-body-md text-muted-foreground">
-              For security and technology leaders responsible for a portfolio of connected products, from mid-sized
-              machine builders to large OEMs. Your teams do the work in tools they know; you see the whole picture.
-            </p>
-            <ButtonLink href={mailto(CONTACT_SUBJECT)} variant="outline" className="mt-auto self-start">
-              Talk to us
-            </ButtonLink>
-          </div>
-          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-8 shadow-sm">
-            <Handshake className="size-6" aria-hidden />
-            <h3 className="text-heading-sm">Cybersecurity partners</h3>
-            <p className="text-body-md text-muted-foreground">
-              Consultancies and auditors run assessments, reviews and sign-offs for their clients in one place. Every
-              comment is tied to the product version it covers, and clients see the result in their own portfolio.
-            </p>
-            <ButtonLink href={mailto("Partnership")} variant="outline" className="mt-auto self-start">
-              Become a partner
-            </ButtonLink>
-          </div>
+        <SectionHeader
+          eyebrow="Who it is for"
+          title="For anyone who puts digital products on the EU market"
+          lead="Machine builders, software companies and the security experts who support them work from the same record."
+        />
+        <div className="flex flex-col gap-20 md:gap-28">
+          {audiences.map((a, i) => (
+            <div key={a.id} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+              <div className={cn("flex flex-col gap-5", i % 2 === 1 && "lg:order-last")}>
+                <p className="text-label-md text-muted-foreground">{a.eyebrow}</p>
+                <h3 className="text-heading-sm md:text-heading-md text-balance">{a.title}</h3>
+                <p className="text-body-lg text-muted-foreground text-pretty">{a.text}</p>
+                <div className="flex flex-wrap gap-2">
+                  {a.chips.map((c) => (
+                    <Badge key={c} variant="outline" className="h-7 px-3 text-label-sm">
+                      {c}
+                    </Badge>
+                  ))}
+                </div>
+                <ButtonLink href={mailto(a.cta.subject)} variant="link" className="h-auto self-start px-0 text-label-md">
+                  {a.cta.label}
+                  <ArrowRight />
+                </ButtonLink>
+              </div>
+              <a.Visual />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -517,7 +549,7 @@ export function Footer() {
         <div className="flex flex-col gap-3">
           <Logo />
           <p className="max-w-md text-caption text-muted-foreground">
-            Cyvidence helps manufacturers understand, improve and prove the cybersecurity of their products. It does not
+            Cyvidence helps companies that build digital products understand, improve and prove their cybersecurity. It does not
             replace formal conformity assessment where the law requires one.
           </p>
         </div>
