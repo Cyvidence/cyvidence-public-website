@@ -1,38 +1,37 @@
 import { Badge } from "@/components/ui/badge";
-import { categories } from "./content";
 
-type Status = "approved" | "created" | "gap" | "open" | "missing" | "na";
+// Illustrative CISO portfolio view for the hero. Fictional company and data.
 
-const status: Record<number, Status> = {
-  1: "approved", 2: "gap", 3: "approved", 4: "created", 5: "created", 6: "gap",
-  7: "open", 8: "approved", 9: "missing", 10: "na", 11: "missing", 12: "created",
+type Status = "ready" | "action" | "risk" | "new";
+
+const statusBadge: Record<Status, { label: string; variant: "success" | "warning" | "destructive" | "outline" }> = {
+  ready: { label: "Ready", variant: "success" },
+  action: { label: "Needs action", variant: "warning" },
+  risk: { label: "At risk", variant: "destructive" },
+  new: { label: "Not assessed", variant: "outline" },
 };
 
-const badge: Record<Status, { label: string; variant: "success" | "secondary" | "warning" | "info" | "destructive" | "outline" }> = {
-  approved: { label: "Approved", variant: "success" },
-  created: { label: "In review", variant: "secondary" },
-  gap: { label: "AI audit: 1 gap", variant: "warning" },
-  open: { label: "2 open", variant: "info" },
-  missing: { label: "Missing", variant: "destructive" },
-  na: { label: "Not applicable", variant: "outline" },
-};
-
-const products = [
-  { name: "Field service app", meta: "v2.5", dot: "bg-warning", active: true },
-  { name: "Customer portal", meta: "v4.1", dot: "bg-success" },
-  { name: "Analytics platform", meta: "v1.8", dot: "bg-warning" },
-  { name: "Machine controller", meta: "fw 3.2", dot: "bg-destructive" },
-  { name: "Mobile app", meta: "v2.0", dot: "bg-success" },
+const products: { name: string; version: string; readiness: number; laws: string[]; status: Status }[] = [
+  { name: "Field service app", version: "v2.5", readiness: 92, laws: ["CRA", "MR"], status: "ready" },
+  { name: "Customer portal", version: "v4.1", readiness: 86, laws: ["CRA", "Data Act"], status: "ready" },
+  { name: "Machine controller", version: "fw 3.2", readiness: 48, laws: ["CRA", "MR", "RED"], status: "risk" },
+  { name: "Analytics platform", version: "v1.8", readiness: 67, laws: ["CRA", "AI Act"], status: "action" },
+  { name: "Telematics gateway", version: "hw C", readiness: 0, laws: ["CRA", "RED"], status: "new" },
 ];
 
-// Illustrative product UI for the hero. Not a screenshot of real customer data.
+const stats = [
+  { label: "Products", value: "24" },
+  { label: "Ready", value: "15", tone: "text-success" },
+  { label: "Needs action", value: "6", tone: "text-warning-strong" },
+  { label: "At risk", value: "3", tone: "text-destructive" },
+];
+
 export function HeroMock() {
-  const approved = Object.values(status).filter((s) => s === "approved").length;
   return (
     <div
       className="overflow-hidden rounded-3xl border border-border bg-card text-left shadow-xl"
       role="img"
-      aria-label="Illustration of the Cyvidence product: a portfolio of products with evidence status across twelve documentation categories"
+      aria-label="Illustration of the Cyvidence portfolio view: readiness and status for every product across EU regulations"
     >
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <span className="size-2.5 rounded-full bg-border" />
@@ -40,49 +39,59 @@ export function HeroMock() {
         <span className="size-2.5 rounded-full bg-border" />
         <span className="ml-3 text-caption text-muted-foreground">app.cyvidence.com</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[232px_minmax(0,1fr)]">
-        <aside className="hidden border-r border-border bg-muted/40 p-4 md:block">
-          <p className="text-label-sm text-muted-foreground">Northwind Machines</p>
-          <p className="mb-4 text-title-md">Product portfolio</p>
-          <ul className="flex flex-col gap-1">
-            {products.map((p) => (
+
+      <div className="p-5 md:p-8">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-label-sm text-muted-foreground">Northwind Machines</p>
+            <h3 className="text-title-lg">Portfolio cybersecurity</h3>
+          </div>
+          <Badge variant="secondary">Next deadline: CRA full application</Badge>
+        </div>
+
+        <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="rounded-xl bg-muted/60 p-4">
+              <p className="text-caption text-muted-foreground">{s.label}</p>
+              <p className={`text-heading-sm ${s.tone ?? ""}`}>{s.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <ul className="grid grid-cols-1">
+          {products.map((p) => {
+            const b = statusBadge[p.status];
+            return (
               <li
                 key={p.name}
-                className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-body-sm ${p.active ? "bg-card shadow-sm" : "text-muted-foreground"}`}
+                className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-border py-3 last:border-0 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_112px]"
               >
-                <span className={`size-2 rounded-full ${p.dot}`} />
-                <span className="flex-1 truncate">{p.name}</span>
-                <span className="text-caption text-muted-foreground">{p.meta}</span>
+                <div className="min-w-0">
+                  <p className="truncate text-label-md">{p.name}</p>
+                  <p className="text-caption text-muted-foreground">{p.version}</p>
+                </div>
+                <div className="col-span-2 row-start-2 flex items-center gap-3 md:col-span-1 md:row-start-auto">
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary" style={{ width: `${p.readiness}%` }} />
+                  </div>
+                  <span className="w-9 text-right text-code-sm text-muted-foreground">
+                    {p.status === "new" ? "--" : `${p.readiness}%`}
+                  </span>
+                </div>
+                <div className="hidden flex-wrap gap-1 md:flex">
+                  {p.laws.map((l) => (
+                    <Badge key={l} variant="outline">
+                      {l}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="col-start-2 row-start-1 justify-self-end md:col-start-auto md:row-start-auto">
+                  <Badge variant={b.variant}>{b.label}</Badge>
+                </div>
               </li>
-            ))}
-          </ul>
-        </aside>
-        <div className="min-w-0 p-5 md:p-6">
-          <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <h3 className="text-title-lg">Field service app</h3>
-            <Badge variant="outline">v2.5</Badge>
-            <Badge variant="secondary">CRA</Badge>
-            <Badge variant="secondary">Machinery Regulation</Badge>
-            <span className="w-full text-body-sm text-muted-foreground sm:ml-auto sm:w-auto">
-              {approved} of 12 categories approved
-            </span>
-          </div>
-          <div className="mb-5 h-1.5 overflow-hidden rounded-full bg-muted">
-            <div className="h-full rounded-full bg-primary" style={{ width: `${(approved / 12) * 100}%` }} />
-          </div>
-          <ul className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
-            {categories.map((c) => {
-              const s = badge[status[c.id]];
-              return (
-                <li key={c.id} className="flex items-center gap-3 border-b border-border py-2.5 last:border-0 sm:[&:nth-last-child(2)]:border-0">
-                  <span className="w-5 text-code-sm text-muted-foreground">{String(c.id).padStart(2, "0")}</span>
-                  <span className="min-w-0 flex-1 truncate text-body-sm">{c.name}</span>
-                  <Badge variant={s.variant}>{s.label}</Badge>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

@@ -73,7 +73,9 @@ Headlines are responsive: `text-heading-md md:text-heading-lg`, hero `text-headi
 - `Input` (label, helper, error), `Checkbox` (label), `Switch` (iOS-style, for instant settings).
 
 ## Content rules for the public site
-- Keep the storyline simple: problem, why now, how it works, one record for every regulation, version history, partners, call to action.
+- Audience: CISOs and CIOs at product manufacturers. Speak in outcomes (understand, assess, act, document the product portfolio), not documentation mechanics.
+- Storyline: outcome hero with CRA countdown, platform pillars, why it matters, integrations (developers keep their tools), why now, one record for every regulation, who it is for, call to action.
+- Benefits stay qualitative until pilots give real numbers. Tool names in integrations are examples, never claims of shipped integrations.
 - Do not publish pricing, fundraising, financial projections, market sizing, competitor names or team details unless the owner asks.
 - Never claim certification or "CRA compliant". Use evidence, readiness, verified, audit-ready.
 - Regulation dates must match the official texts; status (applies now or upcoming) is computed at runtime.

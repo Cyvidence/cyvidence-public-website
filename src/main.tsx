@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/globals.css";
 import { Gate } from "./site/gate";
-import { FinalCta, Footer, Hero, HowItWorks, Nav, Partners, Problem, Regulations, VersionHistory, WhyNow } from "./site/sections";
+import { FinalCta, Footer, Hero, Integrations, Nav, Partners, Platform, Problem, Regulations, WhyNow } from "./site/sections";
 
 function Home() {
   return (
@@ -13,11 +13,11 @@ function Home() {
       <Nav />
       <main id="main">
         <Hero />
+        <Platform />
         <Problem />
+        <Integrations />
         <WhyNow />
-        <HowItWorks />
         <Regulations />
-        <VersionHistory />
         <Partners />
         <FinalCta />
       </main>

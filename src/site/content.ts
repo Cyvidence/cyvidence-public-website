@@ -88,11 +88,13 @@ export const timeline: { date: string; law: string; what: string }[] = [
   { date: "2028-08-02", law: "AI Act", what: "High-risk AI embedded in regulated products" },
 ];
 
-export const sources = [
-  { team: "Engineering", where: "Jira, GitHub, Confluence" },
-  { team: "Product security", where: "Threat models in spreadsheets" },
-  { team: "Compliance", where: "Regulation mappings in SharePoint" },
-  { team: "Quality", where: "Certification files as PDFs" },
-  { team: "Vulnerability management", where: "Tickets, wikis and diagrams" },
-  { team: "External consultants", where: "Audit reports by email" },
+// Date the Cyber Resilience Act applies in full. Drives the hero countdown.
+export const CRA_FULL_APPLICATION = "2027-12-11";
+
+// Tool categories developers already use. Names are illustrative examples, not a list of shipped integrations.
+export const toolGroups = [
+  { group: "Code and pipelines", tools: ["GitHub", "GitLab", "Azure DevOps"] },
+  { group: "Security scanning", tools: ["Aikido", "Snyk", "SonarQube"] },
+  { group: "SBOM and components", tools: ["CycloneDX", "SPDX", "Dependency-Track"] },
+  { group: "Work and documentation", tools: ["Jira", "Confluence", "SharePoint"] },
 ];
