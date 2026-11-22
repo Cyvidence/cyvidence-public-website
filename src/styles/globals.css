@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/geist-mono/400.css";
+
+/* Text-style classes used dynamically on /design.html. */
+@source inline("text-{display-xl,heading-xl,heading-lg,heading-md,heading-sm,title-lg,title-md,body-lg,body-md,body-sm,label-md,label-sm,caption,code-sm}");
+
+/* `dark:` follows the .dark class on <html> or any ancestor section. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Map color tokens to Tailwind utilities: bg-primary, text-muted-foreground, ... */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-strong: var(--warning-strong);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+/* Static tokens: radius, shadows, fonts. Always emitted as CSS variables. */
+@theme static {
+  --font-sans: "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 22px;
+  --radius-4xl: 26px;
+
+  --shadow-xs: 0 1px 2px rgb(2 6 23 / 0.05);
+  --shadow-sm: 0 1px 2px rgb(2 6 23 / 0.04), 0 2px 6px rgb(2 6 23 / 0.04);
+  --shadow-md: 0 2px 4px rgb(2 6 23 / 0.04), 0 6px 16px -2px rgb(2 6 23 / 0.06);
+  --shadow-lg: 0 4px 8px rgb(2 6 23 / 0.04), 0 16px 32px -4px rgb(2 6 23 / 0.08);
+  --shadow-xl: 0 8px 16px rgb(2 6 23 / 0.06), 0 24px 48px -8px rgb(2 6 23 / 0.14);
+}
+
+/* Text styles (match the Figma text styles one to one). */
+@utility text-display-xl { font-size: 72px; line-height: 76px; letter-spacing: -0.025em; font-weight: 600; }
+@utility text-heading-xl { font-size: 60px; line-height: 64px; letter-spacing: -0.022em; font-weight: 600; }
+@utility text-heading-lg { font-size: 48px; line-height: 52px; letter-spacing: -0.02em; font-weight: 600; }
+@utility text-heading-md { font-size: 36px; line-height: 42px; letter-spacing: -0.015em; font-weight: 600; }
+@utility text-heading-sm { font-size: 24px; line-height: 30px; letter-spacing: -0.01em; font-weight: 600; }
+@utility text-title-lg { font-size: 20px; line-height: 28px; letter-spacing: -0.006em; font-weight: 600; }
+@utility text-title-md { font-size: 17px; line-height: 24px; letter-spacing: -0.004em; font-weight: 600; }
+@utility text-body-lg { font-size: 18px; line-height: 28px; letter-spacing: -0.004em; font-weight: 400; }
+@utility text-body-md { font-size: 16px; line-height: 24px; letter-spacing: -0.002em; font-weight: 400; }
+@utility text-body-sm { font-size: 14px; line-height: 20px; letter-spacing: -0.001em; font-weight: 400; }
+@utility text-label-md { font-size: 14px; line-height: 20px; letter-spacing: -0.001em; font-weight: 500; }
+@utility text-label-sm { font-size: 12px; line-height: 16px; font-weight: 500; }
+@utility text-caption { font-size: 12px; line-height: 16px; font-weight: 400; }
+@utility text-code-sm { font-family: var(--font-mono); font-size: 13px; line-height: 20px; }
+
+/* Frosted material for sticky navigation. */
+@utility material-glass {
+  background-color: color-mix(in srgb, var(--background) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  body {
+    @apply bg-background text-foreground font-sans text-body-md;
+  }
+  * {
+    @apply border-border;
+  }
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 45%, transparent);
+    border-radius: var(--radius-md);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+}

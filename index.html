@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyvidence: the system of record for product cybersecurity</title>
+    <meta
+      name="description"
+      content="Document, prove and independently verify the cybersecurity of every product and release you place on the EU market. Built for the Cyber Resilience Act, Machinery Regulation, AI Act and more."
+    />
+    <meta property="og:title" content="Cyvidence: the system of record for product cybersecurity" />
+    <meta
+      property="og:description"
+      content="Document, prove and independently verify the cybersecurity of every product and release you place on the EU market."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#020617" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <script>
+      (function () {
+        var m = window.matchMedia("(prefers-color-scheme: dark)");
+        function apply() { document.documentElement.classList.toggle("dark", m.matches); }
+        apply();
+        m.addEventListener("change", apply);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
