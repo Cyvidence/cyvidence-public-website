@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox, Input, Switch } from "@/components/ui/form";
+import { Gate } from "@/site/gate";
 import { Logo } from "@/site/logo";
 
 // Living reference of the design system. Every swatch and component here is the real code.
@@ -174,6 +175,8 @@ function DesignPage() {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <DesignPage />
+    <Gate>
+      <DesignPage />
+    </Gate>
   </StrictMode>,
 );

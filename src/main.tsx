@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/globals.css";
+import { Gate } from "./site/gate";
 import { FinalCta, Footer, Hero, HowItWorks, Nav, Partners, Problem, Regulations, VersionHistory, WhyNow } from "./site/sections";
 
 function Home() {
@@ -27,6 +28,8 @@ function Home() {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Home />
+    <Gate>
+      <Home />
+    </Gate>
   </StrictMode>,
 );
